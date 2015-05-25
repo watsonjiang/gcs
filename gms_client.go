@@ -1,7 +1,7 @@
 package gcs
 
 import(
-  "errors"
+  //"github.com/golang/glog"
 )
 
 /*
@@ -27,17 +27,47 @@ func (r *GmsClient) Join(mbr Address) error {
    joinAttempts := 0
    r.leaving = false
    r.joinPromise.Reset()
-   while(!leaving) {
-      if(installViewIfValidJoinRsp(r.joinPromise, false) {
+   for !r.leaving {
+      if r.installViewIfValidJoinRsp(r.joinPromise, false) {
          return nil
       }
-      var coord Address
-      if coord==nil {
-         if firstOfAllClients(r.mbr, 
+      //TODO:fetch member addresses from somewhere
+      var mbrs []Address
+      coords = getCoords(mbrs)
+
+      //no coord, all are clients. if I'm the first of sorted client,
+      //I'll become coordinator, The other will wait and retry the discovery
+      //and join process
+      if len(coords)==0 {
+         //if r.firstOfAllClients(mbr, 
       }
 
    }
    return ERR_METHOD_NOT_IMPLEMENTED
+}
+
+func (r *GmsClient) getCoords(mbrs []Address) []Address {
+  return nil 
+}
+
+/*
+  Return true if joiner is the first member of the group
+*/
+func (r *GmsClient) firstOfAllClients(joiner Address, mbrs []Address) bool {
+  return false 
+}
+
+type ByAdr []Address
+func (a ByAdr) Len() int {
+   return len(a)
+}
+
+func (a ByAdr) Swap(i, j int) {
+   a[i], a[j] = a[j], a[i]
+}
+
+func (a ByAdr) Less(i, j int) bool {
+   return a[i].CompareTo(a[j])
 }
 
 func (r *GmsClient) Leave(mbr Address) error {
@@ -85,7 +115,7 @@ func (r *GmsClient) installViewIfValidJoinRsp(joinPromise *Promise, blockForRsp 
       if succ {
          sendViewAck(rsp.GetView().GetCreator())
       }
-   }
+   }()
    return (err==nil) && r.isJoinRspValid(rsp) && installView(rsp.GetView(), rsp.GetDigest())
 }
 

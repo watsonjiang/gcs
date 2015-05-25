@@ -1,5 +1,7 @@
 package gcs
 
+import "io"
+
 /*
   A message digest containing -for each member- the highest seqno delivered(hd)
   and the highest seqno recieved(hr)

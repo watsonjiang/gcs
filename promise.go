@@ -27,7 +27,7 @@ func (p *Promise) GetResultWithTimeout(timeout time.Duration) (interface{}, erro
       <-p.c
    }else{
       select {
-      case <-p.c
+      case <-p.c:
       case time.After(timeout):
           return nil, ERR_PROMISE_TIMEOUT
       }

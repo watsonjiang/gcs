@@ -12,7 +12,7 @@ type Protocol interface {
    /*
      An event was received from the layer below.
    */
-   Up(e Event}) interface{}
+   Up(e Event) interface{}
    /*
      An event is  to be sent down the stack
    */

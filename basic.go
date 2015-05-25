@@ -1,5 +1,6 @@
 package gcs
 
+import "io"
 /*
   this file contains some basic facilities for gcs.
 */

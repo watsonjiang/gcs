@@ -2,6 +2,7 @@ package gcs
 
 import(
   "errors"
+  "io"
 )
 
 /*
@@ -14,7 +15,7 @@ const (
    GMS_HEADER_LEAVE_RSP
 )
 
-type GmsHeader {
+type GmsHeader struct {
    Type byte
    Mbr  Address
 }
@@ -33,6 +34,11 @@ func (h *GmsHeader) ReadFrom(r io.Reader) error {
 
 //JoinRsp
 
+
+//Request
+type Request struct {
+
+}
 
 //------------role implementation-----------
 var ERR_METHOD_NOT_IMPLEMENTED = errors.New("Method not implemented")
@@ -123,47 +129,6 @@ func (r *GmsParticipant) HandleMembershipChange(requests []Request) error {
 func (r *GmsParticipant) HandleViewChange(new_view View, digest Digest) error {
    return ERR_METHOD_NOT_IMPLEMENTED
 }
-
-/*
-  Client role. Whenever a new member wants to join a group, it starts in the 
-  CLIENT role. No multicasts to the group will be received and processed until 
-  the member has been joined and truned into a SERVER(coordinator or participant)
-*/
-type GmsClient struct {
-}
-
-func (r *GmsClient) Join(mbr Address) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) Leave(mbr Address) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) HandleJoinResponse(rsp JoinRsp) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) HandleLeaveResponse() error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) Suspect(mbr Address) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) Unsuspect(mbr Address) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) HandleMembershipChange(requests []Request) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
-func (r *GmsClient) HandleViewChange(new_view View, digest Digest) error {
-   return ERR_METHOD_NOT_IMPLEMENTED
-}
-
 
 //----------protocol handler in stack---------------
 type ViewHandler struct {}
