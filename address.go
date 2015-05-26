@@ -1,7 +1,9 @@
 package gcs
 
 type Address interface {
-   CompareTo(o Address) bool
+   //compare two addresses.
+   //return 0 for equality, -1 for smaller, 1 for bigger
+   CompareTo(o Address) int
 }
 
 type IpAddress struct {
@@ -9,13 +11,17 @@ type IpAddress struct {
    Port int
 }
 
-func (a *IpAddress) CompareTo(o Address) bool {
+func (a *IpAddress) CompareTo(o Address) int {
    b := o.(*IpAddress)
-   if a.Ip != b.Ip {
-      return a.Ip > b.Ip
-   }else if a.Port != b.Port {
-      return a.Port > b.Port
-   }else {
-      return false
+   if a.Ip == b.Ip {
+      if a.Port == b.Port {
+         return 0
+      }else if a.Port < b.Port {
+         return -1
+      }
+      return 1
+   }else if a.Ip > b.Ip {
+      return 1
    }
+   return 0
 }

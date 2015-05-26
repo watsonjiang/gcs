@@ -9,7 +9,19 @@ type ViewId struct {
    id      int64
 }
 
+/*
+ Establishes an order between 2 ViewIds. The comparison is done 
+ on the IDs, if they are equal, use the creator.
+ return 0 for equality, value less than 0 if smaller, greater than 0 if greater.
+*/
 func (id *ViewId) CompareTo(o *ViewId) int{
+   if id.id > o.id {
+      return 1
+   }else if id.id < o.id {
+      reutrn -1
+   }else if id.id == o.id {
+      return id.createor.CompareTo(o.creator)
+   }
    return 0
 }
 
@@ -31,8 +43,8 @@ func (v *View) ContainsMember(mbr Address) bool {
    if mbr==nil {
       return false;
    }
-   for _,m:=range members {
-      if mbr.CompareTo(m)==0 {
+   for _,m:=range v.members {
+      if mbr.CompareEqual(m) {
          return true
       }
    }
@@ -42,24 +54,3 @@ func (v *View) ContainsMember(mbr Address) bool {
 func (v *View) CompareTo(o *ViewId) int {
    return 0
 }
-
-/*
-   Returns a list of members which left from view one to two
-*/
-func (v *View) LeftMembers(one, two View) []Address {
-   if one==nil || two==nil {
-      return nil
-   }
-   return nil
-}
-
-/*
-   Returns the difference between 2 views 'from' and 'to'.
-   It assumes that view 'from' is logically prior to view 
-   'to'.
-*/
-func (v *View) Diff(from, to View) [][]Address {
-
-}
-
-

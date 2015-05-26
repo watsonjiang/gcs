@@ -1,11 +1,13 @@
 package gcs
 
-import "testing"
+import (
+   "testing"
+)
 
-func TestAddrComp1(t *t.Testing) {
+func TestAddrComp1(t *testing.T) {
    a := &IpAddress{Ip:"127.0.0.1", Port:9900}
    b := &IpAddress{Ip:"127.0.0.2", Port:9900}
-   if a.CompareTo(b) {
+   if a.CompareEqual(b) {
       t.Error("address compare not correct!")
    }
 }

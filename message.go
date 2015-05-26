@@ -1,5 +1,9 @@
 package gcs
 
+import (
+   "io"
+)
+
 type Header interface {
    WriteTo(w io.Writer) error
    ReadFrom(r io.Reader) error
